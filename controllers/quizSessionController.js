@@ -24,8 +24,8 @@ exports.getQuizSessionById = async (req, res) => {
 
 exports.createQuizSession = async (req, res) => {
   try {
-    const QuizSession = await QuizSession.create(req.body);
-    res.status(201).json(QuizSession);
+    const qs = await QuizSession.create(req.body);
+    res.status(201).json(qs);
   } catch (error) {
     res.status(500).json({ error: 'Error creating QuizSession' });
   }
@@ -37,8 +37,8 @@ exports.updateQuizSession = async (req, res) => {
       where: { id: req.params.id }
     });
     if (updated) {
-      const QuizSession = await QuizSession.findByPk(req.params.id);
-      res.status(200).json(QuizSession);
+      const uqs = await QuizSession.findByPk(req.params.id);
+      res.status(200).json(uqs);
     } else {
       res.status(404).json({ error: 'QuizSession not found' });
     }

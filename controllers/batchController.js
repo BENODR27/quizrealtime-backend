@@ -24,8 +24,8 @@ exports.getBatchById = async (req, res) => {
 
 exports.createBatch = async (req, res) => {
   try {
-    const Batch = await Batch.create(req.body);
-    res.status(201).json(Batch);
+    const bt = await Batch.create(req.body);
+    res.status(201).json(bt);
   } catch (error) {
     res.status(500).json({ error: 'Error creating Batch' });
   }
@@ -37,8 +37,8 @@ exports.updateBatch = async (req, res) => {
       where: { id: req.params.id }
     });
     if (updated) {
-      const Batch = await Batch.findByPk(req.params.id);
-      res.status(200).json(Batch);
+      const ubt = await Batch.findByPk(req.params.id);
+      res.status(200).json(ubt);
     } else {
       res.status(404).json({ error: 'Batch not found' });
     }

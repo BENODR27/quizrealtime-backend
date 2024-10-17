@@ -24,8 +24,8 @@ exports.getParticipantById = async (req, res) => {
 
 exports.createParticipant = async (req, res) => {
   try {
-    const Participant = await Participant.create(req.body);
-    res.status(201).json(Participant);
+    const pt = await Participant.create(req.body);
+    res.status(201).json(pt);
   } catch (error) {
     res.status(500).json({ error: 'Error creating Participant' });
   }
@@ -37,8 +37,8 @@ exports.updateParticipant = async (req, res) => {
       where: { id: req.params.id }
     });
     if (updated) {
-      const Participant = await Participant.findByPk(req.params.id);
-      res.status(200).json(Participant);
+      const upt = await Participant.findByPk(req.params.id);
+      res.status(200).json(upt);
     } else {
       res.status(404).json({ error: 'Participant not found' });
     }

@@ -37,8 +37,8 @@ exports.updateQuestion = async (req, res) => {
       where: { id: req.params.id }
     });
     if (updated) {
-      const Question = await Question.findByPk(req.params.id);
-      res.status(200).json(Question);
+      const uq = await Question.findByPk(req.params.id);
+      res.status(200).json(uq);
     } else {
       res.status(404).json({ error: 'Question not found' });
     }

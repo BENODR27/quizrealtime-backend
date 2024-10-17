@@ -37,8 +37,8 @@ exports.updateAdmin = async (req, res) => {
       where: { id: req.params.id }
     });
     if (updated) {
-      const Admin = await Admin.findByPk(req.params.id);
-      res.status(200).json(Admin);
+      const uad = await Admin.findByPk(req.params.id);
+      res.status(200).json(uad);
     } else {
       res.status(404).json({ error: 'Admin not found' });
     }
