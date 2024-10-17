@@ -1,0 +1,63 @@
+const { Admin } = require('../models');
+
+exports.getAllAdmins = async (req, res) => {
+  try {
+    const Admins = await Admin.findAll();
+    res.json(Admins);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching Admins' });
+  }
+};
+
+exports.getAdminById = async (req, res) => {
+  try {
+    const Admin = await Admin.findByPk(req.params.id);
+    if (Admin) {
+      res.json(Admin);
+    } else {
+      res.status(404).json({ error: 'Admin not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching Admin' });
+  }
+};
+
+exports.createAdmin = async (req, res) => {
+  try {
+    const ad = await Admin.create(req.body);
+    res.status(201).json(ad);
+  } catch (error) {
+    res.status(500).json({ error: 'Error creating Admin' });
+  }
+};
+
+exports.updateAdmin = async (req, res) => {
+  try {
+    const [updated] = await Admin.update(req.body, {
+      where: { id: req.params.id }
+    });
+    if (updated) {
+      const Admin = await Admin.findByPk(req.params.id);
+      res.status(200).json(Admin);
+    } else {
+      res.status(404).json({ error: 'Admin not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating Admin' });
+  }
+};
+
+exports.deleteAdmin = async (req, res) => {
+  try {
+    const deleted = await Admin.destroy({
+      where: { id: req.params.id }
+    });
+    if (deleted) {
+      res.status(204).end();
+    } else {
+      res.status(404).json({ error: 'Admin not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error deleting Admin' });
+  }
+};
