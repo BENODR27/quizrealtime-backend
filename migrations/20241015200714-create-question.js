@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       answer: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       timeAllocated: {
         type: Sequelize.INTEGER

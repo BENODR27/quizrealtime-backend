@@ -1,9 +1,11 @@
 const { Question } = require('../models');
+const { sendResponse } = require('../helper/responseHelper');
 
 exports.getAllQuestions = async (req, res) => {
   try {
     const Questions = await Question.findAll();
-    res.json(Questions);
+    sendResponse(res, 200, 'Questions Fetched successfully', Questions);
+
   } catch (error) {
     res.status(500).json({ error: 'Error fetching Questions' });
   }

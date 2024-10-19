@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
   class Admin extends Model {
     /**
@@ -14,11 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Admin.init({
-    email: DataTypes.STRING,
+    empcode: DataTypes.STRING,
     password: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Admin',
+  });
+  Admin.beforeCreate(async (admin) => {
+    admin.password = await bcrypt.hash(admin.password, 10);
   });
   return Admin;
 };

@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      empcode: {
         type: Sequelize.STRING
       },
       password: {

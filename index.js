@@ -14,7 +14,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(helmet());
-app.use(limiter);
+// app.use(limiter);
 app.use(compression());
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 app.use(cors({

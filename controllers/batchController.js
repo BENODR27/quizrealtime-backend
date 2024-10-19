@@ -1,9 +1,10 @@
 const { Batch } = require('../models');
+const { sendResponse } = require('../helper/responseHelper');
 
 exports.getAllBatches = async (req, res) => {
   try {
     const Batchs = await Batch.findAll();
-    res.json(Batchs);
+    sendResponse(res, 200, 'Batched Fetched successfully', Batchs);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching Batchs' });
   }

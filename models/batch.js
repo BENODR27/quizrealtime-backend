@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Batch.init({
     adminId: DataTypes.INTEGER,
-    totalQuestions: DataTypes.INTEGER
+    batchName: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Batch',

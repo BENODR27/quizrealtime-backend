@@ -12,8 +12,8 @@ module.exports = {
       adminId: {
         type: Sequelize.INTEGER
       },
-      totalQuestions: {
-        type: Sequelize.INTEGER
+      batchName: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

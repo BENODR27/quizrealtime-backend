@@ -1,4 +1,6 @@
+const { sendResponse } = require('../helper/responseHelper');
 const { Admin } = require('../models');
+const bcrypt = require('bcryptjs');
 
 exports.getAllAdmins = async (req, res) => {
   try {
@@ -25,12 +27,38 @@ exports.getAdminById = async (req, res) => {
 exports.createAdmin = async (req, res) => {
   try {
     const ad = await Admin.create(req.body);
-    res.status(201).json(ad);
+    sendResponse(res, 200, 'Registered successfully', ad);
   } catch (error) {
     res.status(500).json({ error: 'Error creating Admin' });
   }
 };
+exports.loginAdmin = async (req, res) => {
+  try {
+    const { empcode, password } = req.body;
 
+    // Find admin by email
+    const admin = await Admin.findOne({ where: { empcode } });
+    if (!admin) {
+      return sendResponse(res, 404, 'Admin not found');
+    }
+
+    // Compare entered password with the stored hashed password
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
+    if (!isPasswordValid) {
+      return sendResponse(res, 401, 'Invalid credentials');
+    }
+
+    // Generate a JWT token
+    // const token = jwt.sign({ id: admin.id, email: admin.email }, JWT_SECRET, {
+    //   expiresIn: '1h', // Token will expire in 1 hour
+    // });
+const token="fgjdfj";
+    // Send the token in the response
+    sendResponse(res, 200, 'Login successful', admin);
+  } catch (error) {
+    sendResponse(res, 500, 'Error logging in admin');
+  }
+};
 exports.updateAdmin = async (req, res) => {
   try {
     const [updated] = await Admin.update(req.body, {
