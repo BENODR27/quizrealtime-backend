@@ -1,4 +1,6 @@
 const { Participant } = require('../models');
+const { sendResponse } = require('../helper/responseHelper');
+const { io } = require('../index'); // Import the io instance
 
 exports.getAllParticipants = async (req, res) => {
   try {
@@ -25,7 +27,8 @@ exports.getParticipantById = async (req, res) => {
 exports.createParticipant = async (req, res) => {
   try {
     const pt = await Participant.create(req.body);
-    res.status(201).json(pt);
+    sendResponse(res, 200, 'Registered successfully', pt);
+
   } catch (error) {
     res.status(500).json({ error: 'Error creating Participant' });
   }

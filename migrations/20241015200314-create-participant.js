@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      username: {
         type: Sequelize.STRING
       },
       quizSessionId: {
@@ -18,7 +18,7 @@ module.exports = {
       totalScore: {
         type: Sequelize.INTEGER
       },
-      answer: {
+      datas: {
         type: Sequelize.STRING
       },
       createdAt: {

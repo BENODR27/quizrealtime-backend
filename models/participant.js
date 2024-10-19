@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Participant.init({
-    email: DataTypes.STRING,
+    username: DataTypes.STRING,
     quizSessionId: DataTypes.INTEGER,
     totalScore: DataTypes.INTEGER,
-    answer: DataTypes.STRING
+    datas: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Participant',
