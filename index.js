@@ -13,6 +13,7 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const participantController = require('./controllers/participantController');
+const { Participant } = require('./models');
 
 
 
@@ -37,13 +38,48 @@ app.use('/api',/*authenticateJWT,*/watchMan, routes); // Prefix routes with /api
 // app.use('/auth', authRoutes); // Authentication routes
 
 
+// // Endpoint to add new sale (for testing purposes)
+app.post('/api/update-score', async (req, res) => {
+  try {
+    const { id, totalScore } = req.body;
 
+    // Update the participant's totalScore in the database
+    const participant = await Participant.findByPk(id);
+    if (!participant) {
+      return res.status(404).json({ error: 'Participant not found' });
+    }
+
+    participant.totalScore = totalScore;
+    await participant.save();
+
+    // Emit the updated score via Socket.IO to all connected clients
+    const updatedScoreData = {
+      username: participant.username,
+      id: participant.id,
+      totalScore: participant.totalScore,
+    };
+
+    // Emit 'new_quiz_score' event with the updated participant data
+    io.emit('new_quiz_score', updatedScoreData);
+
+    // Send success response
+    res.status(200).json({ message: 'Score updated and emitted', participant });
+  } catch (error) {
+    console.error('Error updating participant score:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 // // Endpoint to add new sale (for testing purposes)
-app.post('/start-quiz', async (req, res) => {
+app.post('/api/start-quiz', async (req, res) => {
+try {
   io.emit('quiz_started', { message: 'The quiz has started!' });
-  res.json({ message: 'The quiz has started!' });
+  res.json({status:200, message: 'The quiz has started!' });
+} catch (error) {
+  res.json({status:500, message: 'The quiz failed to start!' });
+
+}
 });
 
 // WebSocket connection
