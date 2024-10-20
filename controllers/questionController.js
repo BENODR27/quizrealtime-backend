@@ -13,9 +13,9 @@ exports.getAllQuestions = async (req, res) => {
 
 exports.getQuestionById = async (req, res) => {
   try {
-    const Question = await Question.findByPk(req.params.id);
-    if (Question) {
-      res.json(Question);
+    const qn = await Question.findByPk(req.params.id);
+    if (qn) {
+      sendResponse(res, 200, 'Question Fetched successfully', qn);
     } else {
       res.status(404).json({ error: 'Question not found' });
     }
