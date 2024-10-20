@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     batchId: DataTypes.INTEGER,
     question: DataTypes.STRING,
     options: DataTypes.STRING,
+    section: DataTypes.STRING,
     answer: DataTypes.INTEGER,
     timeAllocated: DataTypes.INTEGER,
     isLastQuestion: DataTypes.BOOLEAN

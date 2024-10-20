@@ -18,6 +18,9 @@ module.exports = {
       options: {
         type: Sequelize.STRING
       },
+      section: {
+        type: Sequelize.STRING
+      },
       answer: {
         type: Sequelize.STRING
       },
