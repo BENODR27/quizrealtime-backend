@@ -1,23 +1,34 @@
 const { Question } = require('../models');
 const { sendResponse } = require('../helper/responseHelper');
-const NodeCache = require('node-cache');
+const { cacheInstance } = require('../utills/nodecache');
 
-const cache = new NodeCache({ stdTTL: 600 });
 
 exports.getAllQuestions = async (req, res) => {
   try {
-    const cacheQuestionKey="Questions";
-    const cachedQuestions = cache.get(cacheQuestionKey);
-    if(cachedQuestions){
-      console.log("question cache fetched");
-      sendResponse(res, 200, 'Questions Fetched successfully', cachedQuestions);
-    }else{
-      const Questions = await Question.findAll();
-      cache.set(cacheQuestionKey, Questions); 
-      sendResponse(res, 200, 'Questions Fetched successfully', Questions);
+    const { batchId } = req.body;
+    const cacheQuestionKey = `Questions-${batchId}`;
+    console.log(cacheQuestionKey);
+
+    // Check cache for the questions
+    const cachedQuestions = cacheInstance.get(cacheQuestionKey);
+
+    if (cachedQuestions) {
+      console.log("Questions cache fetched");
+      return sendResponse(res, 200, 'Questions fetched successfully', cachedQuestions);
     }
+
+    // Only query the database if the cache is not available
+    const questions = await Question.findAll({
+      where: { batchId: batchId },
+    });
+
+    // Set cache and return the questions
+    cacheInstance.set(cacheQuestionKey, questions);
+    sendResponse(res, 200, 'Questions fetched successfully', questions);
+
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching Questions' });
+    console.error('Error fetching questions:', error);
+    res.status(500).json({ error: 'Error fetching questions' });
   }
 };
 

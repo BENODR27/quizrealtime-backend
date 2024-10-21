@@ -3,7 +3,7 @@ const router = express.Router();
 const questionController = require('../controllers/questionController');
 
 // Define routes
-router.get('/', questionController.getAllQuestions);
+router.post('/', questionController.getAllQuestions);
 router.get('/:id', questionController.getQuestionById);
 router.post('/', questionController.createQuestion);
 router.put('/:id', questionController.updateQuestion);
