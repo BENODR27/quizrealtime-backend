@@ -76,7 +76,6 @@ try {
   res.json({status:200, message: 'The quiz has started!' });
 } catch (error) {
   res.json({status:500, message: 'The quiz failed to start!' });
-
 }
 });
 
