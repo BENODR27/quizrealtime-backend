@@ -1,11 +1,21 @@
 const { Question } = require('../models');
 const { sendResponse } = require('../helper/responseHelper');
+const NodeCache = require('node-cache');
+
+const cache = new NodeCache({ stdTTL: 600 });
 
 exports.getAllQuestions = async (req, res) => {
   try {
-    const Questions = await Question.findAll();
-    sendResponse(res, 200, 'Questions Fetched successfully', Questions);
-
+    const cacheQuestionKey="Questions";
+    const cachedQuestions = cache.get(cacheQuestionKey);
+    if(cachedQuestions){
+      console.log("question cache fetched");
+      sendResponse(res, 200, 'Questions Fetched successfully', cachedQuestions);
+    }else{
+      const Questions = await Question.findAll();
+      cache.set(cacheQuestionKey, Questions); 
+      sendResponse(res, 200, 'Questions Fetched successfully', Questions);
+    }
   } catch (error) {
     res.status(500).json({ error: 'Error fetching Questions' });
   }
