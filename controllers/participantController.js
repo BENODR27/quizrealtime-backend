@@ -1,6 +1,5 @@
 const { Participant } = require('../models');
 const { sendResponse } = require('../helper/responseHelper');
-const { io } = require('../index'); // Import the io instance
 
 exports.getAllParticipants = async (req, res) => {
   try {

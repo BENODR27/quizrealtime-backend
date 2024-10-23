@@ -1,9 +1,12 @@
 const { QuizSession } = require('../models');
+const { sendResponse } = require('../helper/responseHelper');
 
 exports.getAllQuizSessions = async (req, res) => {
   try {
-    const QuizSessions = await QuizSession.findAll();
-    res.json(QuizSessions);
+    const { batchId } = req.body;
+    const QuizSessions = await QuizSession.findAll({where:{batchId:batchId}});
+    sendResponse(res, 200, 'Quiz Sessions fetched successfully', QuizSessions);
+
   } catch (error) {
     res.status(500).json({ error: 'Error fetching QuizSessions' });
   }
@@ -25,7 +28,8 @@ exports.getQuizSessionById = async (req, res) => {
 exports.createQuizSession = async (req, res) => {
   try {
     const qs = await QuizSession.create(req.body);
-    res.status(201).json(qs);
+    sendResponse(res, 200, 'Quiz Session created successfully', qs);
+
   } catch (error) {
     res.status(500).json({ error: 'Error creating QuizSession' });
   }

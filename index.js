@@ -16,7 +16,7 @@ const participantController = require('./controllers/participantController');
 const { Participant } = require('./models');
 
 
-
+const PORT = 8081;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
@@ -72,7 +72,8 @@ app.post('/api/update-score', async (req, res) => {
 // // Endpoint to add new sale (for testing purposes)
 app.post('/api/start-quiz', async (req, res) => {
 try {
-  io.emit('quiz_started', { message: 'The quiz has started!' });
+  const { batchId } = req.body;
+  io.emit('startquiz'+`-B-${batchId}-S-1`, { message: 'The quiz has started!' ,questionId:""});
   res.json({status:200, message: 'The quiz has started!' });
 } catch (error) {
   res.json({status:500, message: 'The quiz failed to start!' });
@@ -95,9 +96,9 @@ app.use((err, req, res, next) => {
 });
 
 /* Start Server */
-server.listen(3000, () => {
-  console.log('Server is running on port 3000');
-  logger.info(`Server is running on port 3000`);
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  // logger.info(`Server is running on port PORT`);
 
 });
 //npm audit prune
