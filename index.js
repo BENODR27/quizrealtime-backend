@@ -72,8 +72,8 @@ app.post('/api/update-score', async (req, res) => {
 // // Endpoint to add new sale (for testing purposes)
 app.post('/api/start-quiz', async (req, res) => {
 try {
-  const { batchId } = req.body;
-  io.emit('startquiz'+`-B-${batchId}-S-1`, { message: 'The quiz has started!' ,questionId:""});
+  const { batchId,questionIndex } = req.body;
+  io.emit('startquiz'+`-B-${batchId}-S-1`, { message: 'The quiz has started!' ,questionIndex:questionIndex});
   res.json({status:200, message: 'The quiz has started!' });
 } catch (error) {
   res.json({status:500, message: 'The quiz failed to start!' });
