@@ -39,7 +39,7 @@ app.use('/api',/*authenticateJWT,*/watchMan, routes); // Prefix routes with /api
 // // Endpoint to add new sale (for testing purposes)
 app.post('/api/update-score', async (req, res) => {
   try {
-    const { id, totalScore } = req.body;
+    const { id, totalScore,datas } = req.body;
 
     // Update the participant's totalScore in the database
     const participant = await Participant.findByPk(id);
@@ -48,6 +48,8 @@ app.post('/api/update-score', async (req, res) => {
     }
 
     participant.totalScore = totalScore;
+    participant.datas = datas;
+
     await participant.save();
 
     // Emit the updated score via Socket.IO to all connected clients
@@ -79,7 +81,16 @@ try {
   res.json({status:500, message: 'The quiz failed to start!' });
 }
 });
-
+// // Endpoint to add new sale (for testing purposes)
+app.post('/api/send-score', async (req, res) => {
+  try {
+    const { batchId,isCorrect } = req.body;
+    io.emit('questionScore'+`-B-${batchId}-S-1`, { message: 'The quiz score shared!' ,isCorrect:isCorrect});
+    res.json({status:200, message: 'The quiz score sent!' });
+  } catch (error) {
+    res.json({status:500, message: 'The quiz score sent failed!' });
+  }
+  });
 // WebSocket connection
 io.on('connection', (socket) => {
   console.log('Client connected');

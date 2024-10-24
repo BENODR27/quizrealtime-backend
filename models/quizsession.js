@@ -15,10 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   QuizSession.init({
     batchId: DataTypes.INTEGER,
-    currentQuestionId: DataTypes.INTEGER,
-    nextQuestionId: DataTypes.INTEGER,
-    isNextQuestionAllowed: DataTypes.BOOLEAN,
-    status: DataTypes.BOOLEAN
+    status: DataTypes.BOOLEAN,
+    datas: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'QuizSession',

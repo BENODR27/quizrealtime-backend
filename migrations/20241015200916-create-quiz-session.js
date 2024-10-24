@@ -12,14 +12,8 @@ module.exports = {
       batchId: {
         type: Sequelize.INTEGER
       },
-      currentQuestionId: {
-        type: Sequelize.INTEGER
-      },
-      nextQuestionId: {
-        type: Sequelize.INTEGER
-      },
-      isNextQuestionAllowed: {
-        type: Sequelize.BOOLEAN
+      datas:{
+        type: Sequelize.STRING
       },
       status: {
         type: Sequelize.BOOLEAN
@@ -38,3 +32,4 @@ module.exports = {
     await queryInterface.dropTable('QuizSessions');
   }
 };
+
